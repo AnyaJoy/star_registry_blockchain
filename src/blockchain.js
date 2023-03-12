@@ -63,7 +63,9 @@ class Blockchain {
      */
     _addBlock(newBlock) {
         let self = this;
+        let chainValidationErrors = this.validateChain()
         return new Promise(async (resolve, reject) => {
+            if (chainValidationErrors.length) reject("Blockchain is tampered, new block is not added")
             newBlock.height = self.chain.length;
             newBlock.timestamp = new Date().getTime().toString().slice(0,-3);
             if (self.chain.length > 0) {

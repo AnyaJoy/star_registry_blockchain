@@ -39,12 +39,9 @@ class Block {
     return new Promise((resolve, reject) => {
       if (self.height === 0) resolve(true)
       const currentBlockHash = self.hash;
-      self.hash = null;
-      if (currentBlockHash === SHA256(JSON.stringify(self)).toString()) {
-        self.hash = currentBlockHash;
+      if (currentBlockHash ===SHA256(JSON.stringify({ ...self, hash: null }) ).toString() ) {
         resolve(true);
       } else {
-        self.hash = currentBlockHash;
         resolve(false);
       }
       // Save in auxiliary variable the current block hash
